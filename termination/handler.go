@@ -63,7 +63,10 @@ func (n *nodeTerminationHandler) processNodeState() error {
 	}
 	glog.V(4).Infof("Applying taint prior to handling termination")
 	if err := sendSlack(); err != nil {
-		glog.Errorf("Failed to send slack: %v", err)
+		glog.Errorf("Failed to send to slack: %v", err)
+	}
+	if err := sendChat(); err != nil {
+		glog.Errorf("Failed to send to google chat: %v", err)
 	}
 	if err := n.taintHandler.ApplyTaint(); err != nil {
 		return err
